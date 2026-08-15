@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VishyAutoAI</title>
+    <link rel = "stylesheet" href="FrontEndCss.css">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    
+
+</head>
+<body>
+
+    <h1>VishyAutoAI</h1>
+    
+    <form>
+        
+        <div><label for="Payload">Enter Data:</label></div>
+        
+        <div><textarea class = "styled_textbox" type="text" id="payload_input" name="payload" style="width: 1000px; height: 100px;"></textarea></div>
+        <button type="button" id = "payload_button" onclick="APIcall()">Send prompt</button>
+        <div><p id="Process"></p></div>
+        
+        
+        <script>async function APIcall(){
+     const apiUrl = "http://127.0.0.1:8000";//Defines the url for the API
+     const textarea_ID = document.getElementById("payload_input");//gets the payload input whatever the user typed
+     const value = textarea_ID.value;//gets the value from it.
+     const myPayloadValue = String(value)//Gives the payload data.
+     const queryString = new URLSearchParams({ payload: myPayloadValue }).toString();//Converts to string
+     const message = `${apiUrl}?${queryString}`;//Combines url and payload data
+     const response = await fetch(message);//Get's the response of the API
+     const data = await response.json();
+     //Waits for the data as fetch command is asynchronous
+     return data
+     
+    
+
+     
+    
+
+    
+        }
+        
+    </script>
+        
+        <script>
+            document.getElementById("payload_button").addEventListener("click", function(){
+                const input = document.getElementById("payload_input");
+                const process = document.getElementById("Process");
+                process.innerHTML = "The AI is currently processing your prompt.";
+                setTimeout((function(){//uses timeout to display previous message for certain amount of time.
+                    process.innerHTML = ""
+                    
+                }), 3000);
+                
+
+            })
+        </script>
+       
+
+    
+
+ 
+        
+    </form>
+
+   
+
+</body>
+</html>
